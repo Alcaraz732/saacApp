@@ -20,6 +20,11 @@ const MessageTextInput = (props) => {
     );
   }
 
+ const test = () =>{
+    fetch('http://45.137.74.81:3000/botones')
+      .then(response => response.json())
+      .then(boton => console.warn(boton))
+  }
   
 
 const HomePage =()=> {
@@ -44,7 +49,7 @@ const HomePage =()=> {
             <View style={{padding:5,paddingLeft:15,paddingBottom:20, ajustifyContent:'space-around'}}  >
  
             <View style={{ flex: 2,alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, backgroundColor:'#F9C106', borderWidth:1,borderRadius:5 ,width:80, height:80}}>
-            <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.log('does not work');}}>      
+            <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {test}}>      
                 <Image style={styles.images} source={{
                    uri: 'https://cdn-icons-png.flaticon.com/512/100/100766.png',
                   }}/> 
@@ -159,9 +164,11 @@ const HomePage =()=> {
               
               }}
             />
-            <ScrollView>
+
+          <ScrollView>
             <View style={{ flex: 3,padding:5,alignItems: 'flex-start', justifyContent: 'center' }}>
                     <Text>Aqui se cargaran los botones</Text>
+
                 </View>
             </ScrollView>
           
