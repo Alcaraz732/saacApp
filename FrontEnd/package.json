@@ -48,5 +48,9 @@
             ".src/assets/fonts"
         ]
 
+    },
+    "engines": {
+        "node": "<17",
+        "npm": "<8.2"
     }
 }

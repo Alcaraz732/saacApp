@@ -5,8 +5,8 @@
 /* eslint-disable react-native/no-inline-styles */
 
 
-import React, { Component } from 'react';
-import { Text, View, TextInput, StyleSheet,Button, Image,TouchableOpacity } from 'react-native';
+import React, { Component,useEffect,useState } from 'react';
+import { Text, View,SectionList,FlatList, TextInput, StyleSheet,Button,ActivityIndicator, Image,TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -20,18 +20,30 @@ const MessageTextInput = (props) => {
     );
   }
 
- const test = () =>{
-    fetch('http://45.137.74.81:3000/botones')
-      .then(response => response.json())
-      .then(boton => console.warn(boton))
-  }
-  
+
+
 
 const HomePage =()=> {
 
      {
+      const [isLoading, setLoading] = useState(true);
+      const [data, setData] = useState([]);
+      console.log(data);
+    
+      useEffect(() => {
+        fetch('https://app-saac.herokuapp.com/botones')
+          .then((response) => response.json())
+          .then((json) => setData(json))
+          .catch((error) => console.error(error))
+          .finally(() => setLoading(false));
+      }, []);
+
+      
+    
+    
+
         const [value, setText] = React.useState('');
-        return (  
+      return (  
             
            <SafeAreaView>
             {/*BARRA DE BUSQUEDA*/ }
@@ -49,7 +61,7 @@ const HomePage =()=> {
             <View style={{padding:5,paddingLeft:15,paddingBottom:20, ajustifyContent:'space-around'}}  >
  
             <View style={{ flex: 2,alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, backgroundColor:'#F9C106', borderWidth:1,borderRadius:5 ,width:80, height:80}}>
-            <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {test}}>      
+            <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.warn(data[1].Nombre)}}>      
                 <Image style={styles.images} source={{
                    uri: 'https://cdn-icons-png.flaticon.com/512/100/100766.png',
                   }}/> 
@@ -167,9 +179,23 @@ const HomePage =()=> {
 
           <ScrollView>
             <View style={{ flex: 3,padding:5,alignItems: 'flex-start', justifyContent: 'center' }}>
-                    <Text>Aqui se cargaran los botones</Text>
+                   
+
+    {isLoading ? <ActivityIndicator/> : (
+        <FlatList
+          data={data}
+          keyExtractor={({ ID }, index) => ID}
+          renderItem={({ item }) => (
+            <Text>{item.Nombre}, {item.Color}</Text>
+           
+          )}
+        />
+        
+        
+      )}
 
                 </View>
+            
             </ScrollView>
           
                 
