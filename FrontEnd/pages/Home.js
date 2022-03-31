@@ -23,6 +23,7 @@ const MessageTextInput = (props) => {
 
 
 
+
 const HomePage =()=> {
 
      {
@@ -38,7 +39,7 @@ const HomePage =()=> {
           .finally(() => setLoading(false));
       }, []);
 
-      
+        
     
     
 
@@ -194,7 +195,29 @@ const HomePage =()=> {
         
       )}
 
+
                 </View>
+
+            
+            {isLoading ? <ActivityIndicator/> : (
+              data.map((item,index)=>{
+              return  <View style={{ flex: 2,alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, padding:5,margin:5, backgroundColor:item.Color, borderWidth:1,borderRadius:5 ,width:100, height:100}}>
+                         <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.warn(data[index].Nombre)}}>
+                        
+                        <Text key={index} style={styles.textboton}>{item.Nombre}</Text>
+                        <Image style={styles.icon} source={{
+                          uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Star_icon-72a7cf.svg/2048px-Star_icon-72a7cf.svg.png',
+                          
+                        }}/> 
+                        </TouchableOpacity>
+                    </View>
+                      
+
+              })
+        
+        
+      )}
+               
             
             </ScrollView>
           
@@ -209,6 +232,12 @@ const styles = StyleSheet.create({
     text: {
       fontFamily: 'Odor Mean Chey',
       color: 'white',
+      borderRadius:1,
+      alignSelf:'center',
+    },
+    textboton: {
+      fontFamily: 'Odor Mean Chey',
+      color: 'black',
       borderRadius:1,
       alignSelf:'center',
     },
