@@ -32,13 +32,22 @@ const HomePage =()=> {
       console.log(data);
     
       useEffect(() => {
-        fetch('https://app-saac.herokuapp.com/botones')
+        fetch('http://10.0.2.2:3000/botones')
           .then((response) => response.json())
           .then((json) => setData(json))
           .catch((error) => console.error(error))
           .finally(() => setLoading(false));
       }, []);
 
+      const [isLoading2, setLoading2] = useState(true);
+      const [data2, setData2] = useState([]);
+      useEffect(() => {
+        fetch('http://10.0.2.2:3000/categorias')
+          .then((response) => response.json())
+          .then((json) => setData2(json))
+          .catch((error) => console.error(error))
+          .finally(() => setLoading2(false));
+      }, []);
         
     
     
@@ -46,7 +55,7 @@ const HomePage =()=> {
         const [value, setText] = React.useState('');
       return (  
             
-           <SafeAreaView>
+           <SafeAreaView style={{flex:1}}>
             {/*BARRA DE BUSQUEDA*/ }
             <View>
                 <MessageTextInput
@@ -58,48 +67,58 @@ const HomePage =()=> {
             </View>
 
            {/*CATEGORIAS*/ }
-          <ScrollView >
-            <View style={{padding:5,paddingLeft:15,paddingBottom:20, ajustifyContent:'space-around'}}  >
- 
-            <View style={{ flex: 2,alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, backgroundColor:'#F9C106', borderWidth:1,borderRadius:5 ,width:80, height:80}}>
-            <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.warn(data[1].Nombre)}}>      
-                <Image style={styles.images} source={{
-                   uri: 'https://cdn-icons-png.flaticon.com/512/100/100766.png',
-                  }}/> 
-                  <Text style={styles.text}>Frases</Text>
-                  
-              </TouchableOpacity>
+          <ScrollView style={{height:'45%'}}>
+          <View style={{  padding:5,paddingLeft:15,paddingBottom:20, ajustifyContent:'space-around'}}  >
 
-              </View >
-              <View style={{ top:8,flex: 2,alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, backgroundColor:'#F9C106', borderWidth:1,borderRadius:5, width:80,height:80}}>
-              <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.log('does not work');}}>      
+          {isLoading2 ? <ActivityIndicator/> : (
+              data2.map((item,index)=>{
+              if(index%2==0){
+                return  <View style={{  flex: 2,margin:5,alignItems: 'center',justifyContent: 'space-between', backgroundColor:'#F9C106', borderWidth:1,borderRadius:5 ,width:80, height:80}}>
+                <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.warn(data2[index].Nombre)}}>
                 <Image style={styles.images} source={{
-                   uri: 'https://cdn-icons-png.flaticon.com/512/88/88290.png',
-                  }}/> 
-                  <Text style={styles.text}>Noticias</Text>
-                  
-              </TouchableOpacity>
-              </View >
-              <View style={{ flex: 2, padding: 2,position:'absolute',alignSelf: 'center', left:100,paddingTop:10,top:5,backgroundColor:'#F9C106', borderWidth:1,borderRadius:5, width:80,height:80 }}>
-              <TouchableOpacity style={{paddingLeft:1}} onPress={()=> {console.log('does not work');}}>      
-                <Image style={styles.images} source={{
-                   uri: 'https://icons-for-free.com/iconfiles/png/512/forecast+sun+weather+icon-1320184881471073011.png',
-                  }}/> 
-                  <Text style={styles.text}>Tiempo</Text>
-                  
-              </TouchableOpacity>
-              </View>
-              <View style={{ flex: 2, padding: 2,position:'absolute',alignSelf: 'center', left:100,paddingTop:10, top:93,backgroundColor:'#F9C106', borderWidth:1,borderRadius:5, width:80,height:80 }}>
-              <TouchableOpacity style={{paddingLeft:1}} onPress={()=> {console.log('does not work');}}>      
-                <Image style={styles.images} source={{
-                   uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Simple_Music.svg/600px-Simple_Music.svg.png',
-                  }}/> 
-                  <Text style={styles.text}>Musica</Text>
-                  
-              </TouchableOpacity>
-              </View>
-              
-                </View>
+                   uri: item.Icono,
+                 }}/> 
+           <Text style={styles.text}>{item.Nombre}</Text>
+               </TouchableOpacity>
+           </View>  
+
+              }
+          
+
+              })
+        
+        
+      )}
+
+
+
+  
+   
+          </View>
+          <View style={{ top: -125    , padding:5,paddingLeft:30,paddingBottom:20, ajustifyContent:'space-around'}}  >
+
+{isLoading2 ? <ActivityIndicator/> : (
+    data2.map((item,index)=>{
+    if(index%2==1){
+      return  <View style={{  flex: 2,alignItems: 'center',left:100,top:-80,justifyContent: 'space-between', margin:5  ,backgroundColor:'#F9C106', borderWidth:1,borderRadius:5 ,width:80, height:80}}>
+      <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.warn(data2[index].Nombre)}}>
+      <Image style={styles.images} source={{
+         uri: item.Icono,
+       }}/> 
+ <Text style={styles.text}>{item.Nombre}</Text>
+     </TouchableOpacity>
+ </View>
+
+    }
+
+
+    })
+
+
+)}
+
+
+</View>
           
           
            {/*HERRAMIENTAS*/ }
@@ -178,30 +197,13 @@ const HomePage =()=> {
               }}
             />
 
-          <ScrollView>
-            <View style={{ flex: 3,padding:5,alignItems: 'flex-start', justifyContent: 'center' }}>
-                   
+          <ScrollView  contentContainerStyle={{  overflow:'scroll'}}>
+      
 
-    {isLoading ? <ActivityIndicator/> : (
-        <FlatList
-          data={data}
-          keyExtractor={({ ID }, index) => ID}
-          renderItem={({ item }) => (
-            <Text>{item.Nombre}, {item.Color}</Text>
-           
-          )}
-        />
-        
-        
-      )}
-
-
-                </View>
-
-            
+            <View style={{flexDirection:'row',flex:1,justifyContent:'space-between',flexWrap:'wrap' }}>
             {isLoading ? <ActivityIndicator/> : (
               data.map((item,index)=>{
-              return  <View style={{ flex: 2,alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, padding:5,margin:5, backgroundColor:item.Color, borderWidth:1,borderRadius:5 ,width:100, height:100}}>
+              return  <View style={{ alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, padding:5,margin:5, backgroundColor:item.Color, borderWidth:1,borderRadius:5 ,width:100, height:100}}>
                          <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.warn(data[index].Nombre)}}>
                         
                         <Text key={index} style={styles.textboton}>{item.Nombre}</Text>
@@ -217,6 +219,7 @@ const HomePage =()=> {
         
         
       )}
+      </View>
                
             
             </ScrollView>
