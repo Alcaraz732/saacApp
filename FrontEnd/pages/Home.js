@@ -5,6 +5,8 @@
 /* eslint-disable react-native/no-inline-styles */
 
 
+//import { route } from 'express/lib/application';
+//import { route } from 'express/lib/router';
 import React, { Component,useEffect,useState } from 'react';
 import { Text, View,SectionList,FlatList, TextInput, StyleSheet,Button,ActivityIndicator, Image,TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -24,7 +26,7 @@ const MessageTextInput = (props) => {
 
 
 
-const HomePage =()=> {
+const HomePage =({route,navigation})=> {
 
      {
       const [isLoading, setLoading] = useState(true);
@@ -96,7 +98,7 @@ const HomePage =()=> {
    
           </View>
           <View style={{ top: -125    , padding:5,paddingLeft:30,paddingBottom:20, ajustifyContent:'space-around'}}  >
-
+              
 {isLoading2 ? <ActivityIndicator/> : (
     data2.map((item,index)=>{
     if(index%2==1){
@@ -198,13 +200,14 @@ const HomePage =()=> {
             />
 
           <ScrollView  contentContainerStyle={{  overflow:'scroll'}}>
-      
-
+         
+          <Text>{route.params.showAll}</Text>
             <View style={{flexDirection:'row',flex:1,justifyContent:'space-between',flexWrap:'wrap' }}>
+            
             {isLoading ? <ActivityIndicator/> : (
               data.map((item,index)=>{
               return  <View style={{ alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, padding:5,margin:5, backgroundColor:item.Color, borderWidth:1,borderRadius:5 ,width:100, height:100}}>
-                         <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.warn(data[index].Nombre)}}>
+                         <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.warn(route)}}>
                         
                         <Text key={index} style={styles.textboton}>{item.Nombre}</Text>
                         <Image style={styles.icon} source={{

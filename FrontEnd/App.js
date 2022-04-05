@@ -17,8 +17,11 @@ function HomeScreen({navigation}) {
   );
 }
 
-function Homefunc({navigation}) {
-  return (<HomePage></HomePage>);
+function Homefunc({route,navigation}) {
+  return (
+  <HomePage route={route}>
+    
+  </HomePage>);
   
     
 }
@@ -37,7 +40,7 @@ export default function App() {
   return (
     <NavigationContainer >
       <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Inicio" component={Homefunc} />
+        <Drawer.Screen  initialParams={{showAll:'no way'}} name="Inicio" component={Homefunc} />
         <Drawer.Screen name="Notifications" component={NotificationsScreen} />
         <Drawer.Screen name="Home2" component={HomeScreen} />
       </Drawer.Navigator>
