@@ -11,6 +11,11 @@ import React, { Component,useEffect,useState } from 'react';
 import { Text, View,SectionList,FlatList, TextInput, StyleSheet,Button,ActivityIndicator, Image,TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import * as variables from "../globalVariable/variables";
+import RNRestart from 'react-native-restart';
+import * as RNFS from 'react-native-fs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const MessageTextInput = (props) => {
     return (
@@ -21,6 +26,8 @@ const MessageTextInput = (props) => {
       />
     );
   }
+ 
+
 
 
 
@@ -31,20 +38,41 @@ const HomePage =({route,navigation})=> {
      {
       const [isLoading, setLoading] = useState(true);
       const [data, setData] = useState([]);
-      console.log(data);
-    
-      useEffect(() => {
-        fetch('http://10.0.2.2:3000/botones')
+      
+
+
+      const storeData = async (value) => {
+        try {
+          await AsyncStorage.setItem('prueba', value);
+          RNRestart.Restart();
+       
+        } catch (e) {
+          // saving error
+        }
+      }
+      const getData = async () => {
+        try {
+          const value = await AsyncStorage.getItem('prueba')
+         
+          if(value!=null){
+               fetch('http://10.0.2.2:2000/botones/categoria/'+value)
           .then((response) => response.json())
           .then((json) => setData(json))
           .catch((error) => console.error(error))
           .finally(() => setLoading(false));
-      }, []);
+          }
+        } catch(e) {
+          // error reading value
+        }
+      }
+  
+     getData();
+
 
       const [isLoading2, setLoading2] = useState(true);
       const [data2, setData2] = useState([]);
       useEffect(() => {
-        fetch('http://10.0.2.2:3000/categorias')
+        fetch('http://10.0.2.2:2000/categorias/tablero/'+variables.tablero)
           .then((response) => response.json())
           .then((json) => setData2(json))
           .catch((error) => console.error(error))
@@ -76,7 +104,7 @@ const HomePage =({route,navigation})=> {
               data2.map((item,index)=>{
               if(index%2==0){
                 return  <View style={{  flex: 2,margin:5,alignItems: 'center',justifyContent: 'space-between', backgroundColor:'#F9C106', borderWidth:1,borderRadius:5 ,width:80, height:80}}>
-                <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.warn(data2[index].Nombre)}}>
+                <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {storeData(item.ID+'')}}>
                 <Image style={styles.images} source={{
                    uri: item.Icono,
                  }}/> 
@@ -103,7 +131,7 @@ const HomePage =({route,navigation})=> {
     data2.map((item,index)=>{
     if(index%2==1){
       return  <View style={{  flex: 2,alignItems: 'center',left:100,top:-80,justifyContent: 'space-between', margin:5  ,backgroundColor:'#F9C106', borderWidth:1,borderRadius:5 ,width:80, height:80}}>
-      <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.warn(data2[index].Nombre)}}>
+      <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {storeData(item.ID+'')}}>
       <Image style={styles.images} source={{
          uri: item.Icono,
        }}/> 
@@ -201,13 +229,13 @@ const HomePage =({route,navigation})=> {
 
           <ScrollView  contentContainerStyle={{  overflow:'scroll'}}>
          
-          <Text>{route.params.showAll}</Text>
+         
             <View style={{flexDirection:'row',flex:1,justifyContent:'space-between',flexWrap:'wrap' }}>
             
             {isLoading ? <ActivityIndicator/> : (
               data.map((item,index)=>{
               return  <View style={{ alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, padding:5,margin:5, backgroundColor:item.Color, borderWidth:1,borderRadius:5 ,width:100, height:100}}>
-                         <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.warn(route)}}>
+                         <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {getData()}}>
                         
                         <Text key={index} style={styles.textboton}>{item.Nombre}</Text>
                         <Image style={styles.icon} source={{

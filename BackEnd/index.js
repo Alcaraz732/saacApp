@@ -1,49 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
-
-const connection = mysql.createPool({
-    host: 'localhost', // Your connection adress (localhost).
-    user: 'root', // Your database's username.
-    password: '', // Your database's password.
-    database: 'saacbd' // Your database's name.
-});
+const { connection } = require('./database/configbd');
 
 // Starting our app.
 const app = express();
+app.use(bodyParser.json());
+app.use(express.json());
 
-
-app.get('/botones', function(req, res) {
-    // Connecting to the database.
-    connection.getConnection(function(err, connection) {
-
-        // Executing the MySQL query (select all data from the 'users' table).
-        connection.query('SELECT * FROM boton', function(error, results, fields) {
-            // If some error occurs, we throw an error.
-            if (error) throw error;
-
-            // Getting the 'response' from the database and sending it to our route. This is were the data is.
-            res.send(results)
-        });
-    });
-});
-
-app.get('/categorias', function(req, res) {
-    // Connecting to the database.
-    connection.getConnection(function(err, connection) {
-
-        // Executing the MySQL query (select all data from the 'users' table).
-        connection.query('SELECT * FROM categoria', function(error, results, fields) {
-            // If some error occurs, we throw an error.
-            if (error) throw error;
-
-            // Getting the 'response' from the database and sending it to our route. This is were the data is.
-            res.send(results)
-        });
-    });
-});
-
+app.use('/botones', require('./routes/boton'));
+app.use('/categorias', require('./routes/categoria'));
+app.use('/tableros', require('./routes/tablero'));
 // Starting our server.
-app.listen(3000, () => {
-    console.log('Go to http://localhost:3000/botones so you can see the data.');
+app.listen(2000, () => {
+    console.log('Escuchando puerto 2000');
 });
