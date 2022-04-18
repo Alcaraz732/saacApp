@@ -27,6 +27,7 @@ const MessageTextInput = (props) => {
     );
   }
  
+  
 
 
 
@@ -38,6 +39,8 @@ const HomePage =({route,navigation})=> {
      {
       const [isLoading, setLoading] = useState(true);
       const [data, setData] = useState([]);
+
+      const [isLoad, setCarga] = useState(false);
       
 
 
@@ -54,28 +57,40 @@ const HomePage =({route,navigation})=> {
         try {
           const value = await AsyncStorage.getItem('prueba')
          
-          if(value!=null){
-               fetch('http://10.0.2.2:2000/botones/categoria/'+value)
+          if(value!=null && isLoad==false){
+             fetch('http://10.0.2.2:2000/botones/categoria/'+value)
           .then((response) => response.json())
-          .then((json) => setData(json))
+          .then((json) =>{
+            let iterableResponse = Object.values(json);
+            console.warn(json);
+            //iterableResponse.map(item => console.log(item));
+            setData(iterableResponse);
+          })
           .catch((error) => console.error(error))
+          
           .finally(() => setLoading(false));
+
+          setCarga(true);
+          
           }
         } catch(e) {
           // error reading value
         }
       }
   
-     getData();
-
+    
+      getData();
 
       const [isLoading2, setLoading2] = useState(true);
       const [data2, setData2] = useState([]);
-      useEffect(() => {
+     useEffect(() => {
         fetch('http://10.0.2.2:2000/categorias/tablero/'+variables.tablero)
           .then((response) => response.json())
-          .then((json) => setData2(json))
-          .catch((error) => console.error(error))
+          .then((json) =>{
+            let iterableResponse = Object.values(json);
+           // iterableResponse.map(item => console.log(item));
+            setData2(iterableResponse);
+          }).catch((error) => console.error(error))
           .finally(() => setLoading2(false));
       }, []);
         
@@ -85,7 +100,7 @@ const HomePage =({route,navigation})=> {
         const [value, setText] = React.useState('');
       return (  
             
-           <SafeAreaView style={{flex:1}}>
+           <SafeAreaView   style={{flex:1}}>
             {/*BARRA DE BUSQUEDA*/ }
             <View>
                 <MessageTextInput

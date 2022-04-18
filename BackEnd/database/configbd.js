@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+/*const mysql = require('mysql');
 
 const connection = mysql.createPool({
     host: 'localhost', // Your connection adress (localhost).
@@ -7,4 +7,10 @@ const connection = mysql.createPool({
     database: 'saacbd' // Your database's name.
 });
 
-module.exports = { connection };
+module.exports = { connection };*/
+module.exports = {
+    HOST: "localhost",
+    USER: "root",
+    PASSWORD: "",
+    DB: "saacbd"
+};

@@ -1,15 +1,28 @@
-const { Router } = require('express');
-const { getTableros, getTablerosByID } = require('../controllers/tablero');
+module.exports = app => {
+    const tableros = require("../controllers/tablero.js");
 
+    var router = require("express").Router();
 
-const router = Router();
+    // Create a new Tutorial
+    router.post("/", tableros.create);
 
-router.get('/', [
+    // Retrieve all Tutorials
+    router.get("/", tableros.findAll);
 
-], getTableros);
+    // Retrieve all published Tutorials
+    router.get("/categoria/:user", tableros.findAllByUser);
 
-router.get('/:id', [
+    // Retrieve a single Tutorial with id
+    router.get("/:id", tableros.findOne);
 
-], getTablerosByID);
+    // Update a Tutorial with id
+    router.put("/:id", tableros.update);
 
-module.exports = router;
+    // Delete a Tutorial with id
+    router.delete("/:id", tableros.delete);
+
+    // Delete all Tutorials
+    router.delete("/", tableros.deleteAll);
+
+    app.use('/tableros', router);
+};

@@ -35,7 +35,12 @@ const TableroPage =({route,navigation})=> {
       useEffect(() => {
         fetch('http://10.0.2.2:2000/tableros')
           .then((response) => response.json())
-          .then((json) => setData(json))
+          .then((json) =>{
+            let iterableResponse = Object.values(json);
+            console.warn(json);
+            //iterableResponse.map(item => console.log(item));
+            setData(iterableResponse);
+          })
           .catch((error) => console.error(error))
           .finally(() => setLoading(false));
       }, []);
