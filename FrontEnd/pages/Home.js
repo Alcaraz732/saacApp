@@ -15,6 +15,7 @@ import * as variables from "../globalVariable/variables";
 import RNRestart from 'react-native-restart';
 import * as RNFS from 'react-native-fs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Tts from 'react-native-tts';
 
 
 const MessageTextInput = (props) => {
@@ -77,7 +78,13 @@ const HomePage =({route,navigation})=> {
           // error reading value
         }
       }
-  
+      const activateSound = async (text) => {
+        Tts.getInitStatus().then(() => {
+          Tts.setDefaultLanguage('es-ES');
+          Tts.speak('Alexa,'+text);
+          Tts.voices().then(voices => console.warn(voices));
+        });
+      }
     
       getData();
 
@@ -250,7 +257,7 @@ const HomePage =({route,navigation})=> {
             {isLoading ? <ActivityIndicator/> : (
               data.map((item,index)=>{
               return  <View style={{ alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, padding:5,margin:5, backgroundColor:item.Color, borderWidth:1,borderRadius:5 ,width:100, height:100}}>
-                         <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {getData()}}>
+                         <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {activateSound(item.Nombre)}}>
                         
                         <Text key={index} style={styles.textboton}>{item.Nombre}</Text>
                         <Image style={styles.icon} source={{
