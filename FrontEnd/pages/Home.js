@@ -8,7 +8,7 @@
 //import { route } from 'express/lib/application';
 //import { route } from 'express/lib/router';
 import React, { Component,useEffect,useState } from 'react';
-import { Text, View,SectionList,FlatList, TextInput, StyleSheet,Button,ActivityIndicator, Image,TouchableOpacity } from 'react-native';
+import { Text, View,SectionList,FlatList, TextInput, StyleSheet,Button,ActivityIndicator, Image,TouchableOpacity,ToastAndroid } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as variables from "../globalVariable/variables";
@@ -16,14 +16,18 @@ import RNRestart from 'react-native-restart';
 import * as RNFS from 'react-native-fs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Tts from 'react-native-tts';
-
+import Voice from '@react-native-community/voice';
+import SweetAlert from 'react-native-sweet-alert';
+import ModalSelector from 'react-native-modal-selector'
 
 const MessageTextInput = (props) => {
     return (
       <TextInput
         {...props} // Inherit any props passed to it; e.g., multiline, numberOfLines below
         editable
-        maxLength={50}
+        maxLength={50} 
+        
+        placeholderTextColor="#000000"
       />
     );
   }
@@ -38,17 +42,36 @@ const MessageTextInput = (props) => {
 const HomePage =({route,navigation})=> {
 
      {
+      let index=0;
+      //Lista asistentes
+      const dataAsis = [
+        { key: index++, label: 'Alexa', valor:'Alexa' },
+        { key: index++, label: 'Google Home', valor:'Okey, Google' },
+        { key: index++, label: 'Ciri', valor:'Ciri' },
+        { key: index++, label: 'Cortana', valor:'Cortana' },
+      
+        
+    ];
+    
+    
+    
+      //************* */
+
+
       const [isLoading, setLoading] = useState(true);
       const [data, setData] = useState([]);
 
       const [isLoad, setCarga] = useState(false);
       
-
+      Tts.addEventListener('tts-finish', (event) => startRecording());
 
       const storeData = async (value) => {
         try {
           await AsyncStorage.setItem('prueba', value);
-          RNRestart.Restart();
+          setCarga(false);
+          setLoading(true)
+          getData();
+          //RNRestart.Restart();
        
         } catch (e) {
           // saving error
@@ -59,11 +82,11 @@ const HomePage =({route,navigation})=> {
           const value = await AsyncStorage.getItem('prueba')
          
           if(value!=null && isLoad==false){
-             fetch('http://10.0.2.2:2000/botones/categoria/'+value)
+             fetch('http://'+variables.ip+'/botones/categoria/'+value)
           .then((response) => response.json())
           .then((json) =>{
             let iterableResponse = Object.values(json);
-            console.warn(json);
+            
             //iterableResponse.map(item => console.log(item));
             setData(iterableResponse);
           })
@@ -81,8 +104,9 @@ const HomePage =({route,navigation})=> {
       const activateSound = async (text) => {
         Tts.getInitStatus().then(() => {
           Tts.setDefaultLanguage('es-ES');
-          Tts.speak('Alexa,'+text);
-          Tts.voices().then(voices => console.warn(voices));
+          Tts.speak(variables.asistente+text);
+          
+          
         });
       }
     
@@ -91,7 +115,7 @@ const HomePage =({route,navigation})=> {
       const [isLoading2, setLoading2] = useState(true);
       const [data2, setData2] = useState([]);
      useEffect(() => {
-        fetch('http://10.0.2.2:2000/categorias/tablero/'+variables.tablero)
+        fetch('http://'+variables.ip+'/categorias/tablero/'+variables.tablero)
           .then((response) => response.json())
           .then((json) =>{
             let iterableResponse = Object.values(json);
@@ -100,6 +124,65 @@ const HomePage =({route,navigation})=> {
           }).catch((error) => console.error(error))
           .finally(() => setLoading2(false));
       }, []);
+
+
+      //VOZ PROCESAMIENTO
+      const [result, setResult] = useState('')
+  const [isLoadingVoice, setLoadingVoice] = useState(false)
+
+  useEffect(() => {
+    Voice.onSpeechStart = onSpeechStartHandler;
+    Voice.onSpeechEnd = onSpeechEndHandler;
+    Voice.onSpeechResults = onSpeechResultsHandler;
+
+    return () => {
+      Voice.destroy().then(Voice.removeAllListeners);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const onSpeechStartHandler = (e) => {
+    console.log("start handler==>>>", e)
+  }
+  const onSpeechEndHandler = (e) => {
+    setLoadingVoice(false)
+    console.log("stop handler", e)
+  }
+
+  const onSpeechResultsHandler = (e) => {
+    let text = e.value[0]
+    setResult(text)
+    console.log("speech result handler", e)
+    SweetAlert.showAlertWithOptions({
+      title: 'El Asistente ha respondido:',
+      subTitle: e.value[0],
+      confirmButtonTitle: 'OK',
+      confirmButtonColor: '#000',
+      otherButtonTitle: 'Cancel',
+      otherButtonColor: '#dedede',
+      style: 'success',
+      cancellable: true
+    },
+    callback => console.log('callback'));
+  }
+
+  const startRecording = async () => {
+    setLoadingVoice(true)
+    try {
+      await Voice.start('es-ES')
+    } catch (error) {
+      console.log("error raised", error)
+    }
+  }
+
+  const stopRecording = async () => {
+    try {
+      await Voice.stop()
+    } catch (error) {
+      console.log("error raised", error)
+    }
+  }
+
         
     
     
@@ -219,13 +302,21 @@ const HomePage =({route,navigation})=> {
 
               </View >
               <View style={{ position:'absolute',flex: 2,alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, right:85,top:64,backgroundColor:'#D3CFC1', borderWidth:1,borderRadius:5, width:55,height:55}}>
-              <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.log('does not work');}}>      
-                <Image style={styles.icon} source={{
+                
+             
+             
+              <Image style={styles.icon} source={{
                    uri: 'https://cdn-icons-png.flaticon.com/512/1692/1692804.png',
                   }}/> 
-                  
-                  
-              </TouchableOpacity>
+                   <ModalSelector
+                    data={dataAsis}
+                   cancelText= 'Volver'
+      
+                   style={{backgroundColor:'rgba(0,0,0,0.5', display:'flex', position:'absolute', width:'80%',height:'80%'}}
+                    onChange={(option)=>{ variables.asistente = option.valor }} />
+              
+    
+              
               </View >
               <View style={{ position:'absolute',flex: 2,alignItems: 'center',justifyContent: 'flex-start',paddingTop:10,right:85,top:123, backgroundColor:'#D3CFC1', borderWidth:1,borderRadius:5, width:55,height:55}}>
               <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.log('does not work');}}>      
@@ -287,7 +378,7 @@ const HomePage =({route,navigation})=> {
 const styles = StyleSheet.create({
     text: {
       fontFamily: 'Odor Mean Chey',
-      color: 'white',
+      color: 'black',
       borderRadius:1,
       alignSelf:'center',
     },
@@ -308,7 +399,7 @@ const styles = StyleSheet.create({
       alignSelf:'center',
     },
     input: {
-      
+      color:'black',
       margin: 12,
       borderWidth: 1,
       padding: 10,

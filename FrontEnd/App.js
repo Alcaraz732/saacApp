@@ -6,7 +6,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import HomePage from './pages/Home';
 import TableroPage from './pages/Tableros';
-import {createStackNavigator} from '@react-navigation/stack'
+import {createStackNavigator} from '@react-navigation/stack';
+import * as variables from "./globalVariable/variables";
 
 /*    {isLoading ? <ActivityIndicator/> : (
               data.map((item,index)=>{
@@ -64,7 +65,7 @@ export default function App() {
       console.log(data);
     
       useEffect(() => {
-        fetch('http://10.0.2.2:3000/tableros')
+        fetch('http://'+variables.ip+'/tableros')
           .then((response) => response.json())
           .then((json) => setData(json))
           .catch((error) => console.error(error))

@@ -33,7 +33,7 @@ const TableroPage =({route,navigation})=> {
       console.log(data);
     
       useEffect(() => {
-        fetch('http://10.0.2.2:2000/tableros')
+        fetch('http://'+variables.ip+'/tableros')
           .then((response) => response.json())
           .then((json) =>{
             let iterableResponse = Object.values(json);

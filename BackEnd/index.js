@@ -25,6 +25,6 @@ require("./routes/tablero.js")(app);
 //app.use('/categorias', require('./routes/categoria'));
 //app.use('/tableros', require('./routes/tablero'));
 // Starting our server.
-app.listen(2000, () => {
-    console.log('Escuchando puerto 2000');
+app.listen(2000, '0.0.0.0', function() {
+    console.log('Listening to port:  ' + 2000);
 });
