@@ -101,14 +101,31 @@ const HomePage =({route,navigation})=> {
           // error reading value
         }
       }
+    //Al pulsar un boton
       const activateSound = async (text) => {
+
+        setText(value + " " + text);
         Tts.getInitStatus().then(() => {
           Tts.setDefaultLanguage('es-ES');
+          Tts.setDefaultRate(0.25);
           Tts.speak(variables.asistente+text);
           
           
         });
       }
+  //Al pulsar hablar
+  const speakFunc= async() => {
+
+    Tts.getInitStatus().then(() => {
+      Tts.setDefaultLanguage('es-ES');
+      Tts.setDefaultRate(0.25);
+      Tts.speak(variables.asistente+value);
+      
+      
+    });
+
+  }
+
     
       getData();
 
@@ -202,7 +219,7 @@ const HomePage =({route,navigation})=> {
             </View>
 
            {/*CATEGORIAS*/ }
-          <ScrollView style={{height:'45%'}}>
+          <ScrollView style={{height:'17%'}}>
           <View style={{  padding:5,paddingLeft:15,paddingBottom:20, ajustifyContent:'space-around'}}  >
 
           {isLoading2 ? <ActivityIndicator/> : (
@@ -261,9 +278,9 @@ const HomePage =({route,navigation})=> {
           <View style={{padding:5,paddingRight:12,paddingBottom:10,alignSelf:'flex-end',position:'absolute',direction:'rtl'}}  >
  
             <View style={{ flex: 2,alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, backgroundColor:'#D3CFC1', borderWidth:1,borderRadius:5 ,width:55, height:55}}>
-            <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.log('does not work');}}>      
+            <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {speakFunc()}}>      
                 <Image style={styles.icon} source={{
-                   uri: 'https://cdn.icon-icons.com/icons2/2550/PNG/512/backspace_icon_152694.png',
+                   uri: 'https://icons.iconarchive.com/icons/custom-icon-design/mono-general-4/512/sound-icon.png',
                   }}/> 
                  
                   
@@ -271,7 +288,7 @@ const HomePage =({route,navigation})=> {
 
               </View >
               <View style={{ top:3,flex: 2,alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, backgroundColor:'#D3CFC1', borderWidth:1,borderRadius:5, width:55,height:55}}>
-              <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.log('does not work');}}>      
+              <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {startRecording();}}>      
                 <Image style={styles.icon} source={{
                    uri: 'https://cdn2.iconfinder.com/data/icons/language-learning/24/Mesa_de_trabajo_7-512.png',
                   }}/> 
@@ -292,7 +309,7 @@ const HomePage =({route,navigation})=> {
                   
 
               <View style={{ flex: 2,position:'absolute',alignItems: 'center',justifyContent: 'flex-start',paddingTop:10,right:85,top:5, backgroundColor:'#D3CFC1', borderWidth:1,borderRadius:5 ,width:55, height:55}}>
-            <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.log('does not work');}}>      
+            <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {setText('');}}>      
                 <Image style={styles.icon} source={{
                    uri: 'https://www.iconsdb.com/icons/preview/red/x-mark-xxl.png',
                   }}/> 
@@ -339,11 +356,12 @@ const HomePage =({route,navigation})=> {
               
               }}
             />
+                       {isLoadingVoice ? <ActivityIndicator text="Cargando"/> : (console.log("Loading"))}
 
           <ScrollView  contentContainerStyle={{  overflow:'scroll'}}>
          
          
-            <View style={{flexDirection:'row',flex:1,justifyContent:'space-between',flexWrap:'wrap' }}>
+            <View style={{flexDirection:'row',flex:4,justifyContent:'space-between',flexWrap:'wrap' }}>
             
             {isLoading ? <ActivityIndicator/> : (
               data.map((item,index)=>{
