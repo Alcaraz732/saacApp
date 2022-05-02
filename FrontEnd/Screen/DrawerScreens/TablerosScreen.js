@@ -14,8 +14,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Button from 'react-native-flat-button'
-import * as variables from "../globalVariable/variables";
-import HomePage from './Home';
+import * as variables from "../../globalVariable/variables";
+import HomePage from './HomeScreen';
 import RNFS from "react-native-fs";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -48,10 +48,10 @@ const TableroPage =({route,navigation})=> {
 
  
         
-     const  changeTablero= async(num)=>{
+      const  changeTablero= async(num)=>{
         variables.tablero=num;
-        await AsyncStorage.setItem('tablero', num);
-        navigation.navigate('Home');
+        await AsyncStorage.setItem('tablero', num+'');
+        navigation.navigate('HomeScreen');
         
       }
     

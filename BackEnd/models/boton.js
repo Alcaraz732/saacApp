@@ -2,13 +2,13 @@ const sql = require("./db.js");
 
 // constructor
 const Boton = function(boton) {
-    this.ID = boton.ID;
+    // this.ID = boton.ID;
     this.Nombre = boton.Nombre;
     this.Color = boton.Color;
     this.Imagen = boton.Imagen;
     this.Sonido = boton.Sonido;
     this.Favorito = boton.Favorito;
-    this.SonidoGrabado = boton.SonidoGrabado;
+    //this.SonidoGrabado = boton.SonidoGrabado;
     this.categoria = boton.categoria;
 };
 
@@ -20,8 +20,8 @@ Boton.create = (newBoton, result) => {
             return;
         }
 
-        console.log("created tutorial: ", { id: res.insertId, ...newTutorial });
-        result(null, { id: res.insertId, ...newTutorial });
+        console.log("created boton: ", { id: res.insertId, ...newBoton });
+        result(null, { id: res.insertId, ...newBoton });
     });
 };
 

@@ -20,6 +20,7 @@ app.use(express.json());
 require("./routes/boton.js")(app);
 require("./routes/categoria.js")(app);
 require("./routes/tablero.js")(app);
+require("./routes/user.js")(app);
 
 //app.use('/botones', require('./routes/boton'));
 //app.use('/categorias', require('./routes/categoria'));

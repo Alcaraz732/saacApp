@@ -10,7 +10,7 @@ module.exports = app => {
     router.get("/", tableros.findAll);
 
     // Retrieve all published Tutorials
-    router.get("/categoria/:user", tableros.findAllByUser);
+    router.get("/usuariou/:user", tableros.findAllByUser);
 
     // Retrieve a single Tutorial with id
     router.get("/:id", tableros.findOne);

@@ -1,86 +1,77 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable no-trailing-spaces */
-import React, { Component,useEffect,useState } from 'react';
-import {Button, View,ActivityIndicator,Text} from 'react-native';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+// Example of Splash, Login and Sign Up in React Native
+// https://aboutreact.com/react-native-login-and-signup/
+import 'react-native-gesture-handler';
+
+// Import React and Component
+import React from 'react';
+
+// Import Navigators from React Navigation
 import {NavigationContainer} from '@react-navigation/native';
-import HomePage from './pages/Home';
-import TableroPage from './pages/Tableros';
 import {createStackNavigator} from '@react-navigation/stack';
-import * as variables from "./globalVariable/variables";
 
-/*    {isLoading ? <ActivityIndicator/> : (
-              data.map((item,index)=>{
-             
-                  <Drawer.Screen  initialParams={{showAll:item.ID}} name={item.Nombre} component={Homefunc} />
+// Import Screens
+import SplashScreen from './Screen/SplashScreen';
+import LoginScreen from './Screen/LoginScreen';
+import RegisterScreen from './Screen/RegisterScreen';
+import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
 
-              })
-        
-        
-      )}*/ 
- 
-function HomeScreen({navigation}) {
+const Stack = createStackNavigator();
+
+const Auth = () => {
+  // Stack Navigator for Login and Sign up Screen
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button
-        onPress={() => navigation.navigate('Notifications')}
-        title="Go to notifications"
+    <Stack.Navigator initialRouteName="LoginScreen">
+      <Stack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{headerShown: false}}
       />
-    </View>
+      <Stack.Screen
+        name="RegisterScreen"
+        component={RegisterScreen}
+        options={{
+          title: 'Register', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#307ecc', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+    </Stack.Navigator>
   );
-}
+};
 
-function Homefunc({route,navigation}) {
+const App = () => {
   return (
-  <HomePage route={route} navigation={navigation}>
-    
-  </HomePage>);
-  
-    
-}
-function Tablerofunc({route,navigation}) {
-  return (
-  <TableroPage route={route} navigation={navigation}>
-    
-  </TableroPage>);
-  
-    
-}
-
-function NotificationsScreen({navigation}) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Button onPress={() => navigation.goBack()} title="Go back home" />
-    </View>
-  );
-}
-
-const Drawer = createDrawerNavigator();
-
-
-export default function App() {
-
-  const [isLoading, setLoading] = useState(true);
-      const [data, setData] = useState([]);
-      console.log(data);
-    
-      useEffect(() => {
-        fetch('http://'+variables.ip+'/tableros')
-          .then((response) => response.json())
-          .then((json) => setData(json))
-          .catch((error) => console.error(error))
-          .finally(() => setLoading(false));
-      }, []);
-  return (
-
-    <NavigationContainer >
-      <Drawer.Navigator initialRouteName="Inicio">
- 
-        <Drawer.Screen  initialParams={{showAll:'no way'}} name={"Home"} component={Homefunc} />
-        <Drawer.Screen  initialParams={{showAll:'no way'}} name="Tableros" component={TableroPage} />
-        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-        <Drawer.Screen name="Home2" component={HomeScreen} />
-      </Drawer.Navigator>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="SplashScreen">
+        {/* SplashScreen which will come once for 5 Seconds */}
+        <Stack.Screen
+          name="SplashScreen"
+          component={SplashScreen}
+          // Hiding header for Splash Screen
+          options={{headerShown: false}}
+        />
+        {/* Auth Navigator: Include Login and Signup */}
+        <Stack.Screen
+          name="Auth"
+          component={Auth}
+          options={{headerShown: false}}
+        />
+        {/* Navigation Drawer as a landing page */}
+        <Stack.Screen
+          name="DrawerNavigationRoutes"
+          component={DrawerNavigationRoutes}
+          // Hiding header for Navigation Drawer
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
+
+export default App;

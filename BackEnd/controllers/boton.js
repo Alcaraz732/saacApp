@@ -13,11 +13,15 @@ exports.create = (req, res) => {
     const boton = new Boton({
         Nombre: req.body.Nombre,
         Color: req.body.Color,
-        Imagen: req.body.Imagen || false
+        Imagen: req.body.Imagen,
+        Sonido: req.body.Sonido,
+        categoria: req.body.categoria,
+        Favorito: req.body.Favorito
+
     });
 
     // Save Tutorial in the database
-    Tutorial.create(boton, (err, data) => {
+    Boton.create(boton, (err, data) => {
         if (err)
             res.status(500).send({
                 message: err.message || "Some error occurred while creating the Tutorial."
