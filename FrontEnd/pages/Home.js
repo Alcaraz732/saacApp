@@ -101,6 +101,7 @@ const HomePage =({route,navigation})=> {
           // error reading value
         }
       }
+
     //Al pulsar un boton
       const activateSound = async (text) => {
 
