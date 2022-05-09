@@ -2664,6 +2664,14 @@
     "js-yaml" "^3.13.1"
     "parse-json" "^4.0.0"
 
+"create-react-class@^15.6.2":
+  "integrity" "sha512-QZv4sFWG9S5RUvkTYWbflxeZX+JG7Cz0Tn33rQBJ+WFQTqTfUTjMjiv9tnfXazjsO5r0KhPs+AqCjyrQX6h2ng=="
+  "resolved" "https://registry.npmjs.org/create-react-class/-/create-react-class-15.7.0.tgz"
+  "version" "15.7.0"
+  dependencies:
+    "loose-envify" "^1.3.1"
+    "object-assign" "^4.1.1"
+
 "cross-fetch@^3.1.5":
   "integrity" "sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw=="
   "resolved" "https://registry.npmjs.org/cross-fetch/-/cross-fetch-3.1.5.tgz"
@@ -4848,7 +4856,7 @@
     "dayjs" "^1.8.15"
     "yargs" "^15.1.0"
 
-"loose-envify@^1.0.0", "loose-envify@^1.1.0", "loose-envify@^1.4.0":
+"loose-envify@^1.0.0", "loose-envify@^1.1.0", "loose-envify@^1.3.1", "loose-envify@^1.4.0":
   "integrity" "sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q=="
   "resolved" "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz"
   "version" "1.4.0"
@@ -5906,6 +5914,19 @@
     "jscodeshift" "^0.11.0"
     "nullthrows" "^1.1.1"
 
+"react-native-color-picker@^0.6.0":
+  "integrity" "sha512-CptAssfTEGww97ev5GfaGTwu3IMBbBFi9ZDai1fgYRurQ7oQTcDp00lOoFIgLXr/acHNME2PjL7Ks/c+leVKFg=="
+  "resolved" "https://registry.npmjs.org/react-native-color-picker/-/react-native-color-picker-0.6.0.tgz"
+  "version" "0.6.0"
+  dependencies:
+    "prop-types" "^15.5.10"
+    "tinycolor2" "^1.4.1"
+
+"react-native-elevation@^1.0.0":
+  "integrity" "sha512-BWIKcEYtzjRV6GpkX0Km5/w2E7fgIcywiQOT7JZTc5NSbv/YI9kpFinB9lRFsOoRVGmiqq/O3VfP/oH2clIiBA=="
+  "resolved" "https://registry.npmjs.org/react-native-elevation/-/react-native-elevation-1.0.0.tgz"
+  "version" "1.0.0"
+
 "react-native-flat-button@^1.0.6":
   "integrity" "sha512-vat5SYmtDXiDt0kqfAK4Qg3wTLLWLiF87i3cNX476DhgVzSAHEi27mNgMurOE3F+4XSMOSpDsJpWa/2XzxdLww=="
   "resolved" "https://registry.npmjs.org/react-native-flat-button/-/react-native-flat-button-1.0.6.tgz"
@@ -5983,6 +6004,14 @@
   dependencies:
     "warn-once" "^0.1.0"
 
+"react-native-settings-list@^1.8.0":
+  "integrity" "sha1-iQiVRuhOb987nkIf6HDwwmJoaNo="
+  "resolved" "https://registry.npmjs.org/react-native-settings-list/-/react-native-settings-list-1.8.0.tgz"
+  "version" "1.8.0"
+  dependencies:
+    "create-react-class" "^15.6.2"
+    "prop-types" "^15.5.10"
+
 "react-native-sweet-alert@^3.5.0":
   "integrity" "sha512-h2W7zM+s7C/Ub4dvHK1mSSB3lQbwpYhbwkS3JOPKTY+w23t8rNTOFxUBNeA9K5F98fzz0fPqj6VX2gsuPD1h1A=="
   "resolved" "https://registry.npmjs.org/react-native-sweet-alert/-/react-native-sweet-alert-3.5.0.tgz"
@@ -6007,6 +6036,13 @@
   dependencies:
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
+
+"react-native-wheel-color-picker@^1.2.0":
+  "integrity" "sha512-j4IcN7so9dZAkXyrPTTaPqCKsjkGBZkd5F7HqLo0OTRB1EZX3Ww5VMKsKjloxv6Omv193wGOhwfG20ec2KnxJQ=="
+  "resolved" "https://registry.npmjs.org/react-native-wheel-color-picker/-/react-native-wheel-color-picker-1.2.0.tgz"
+  "version" "1.2.0"
+  dependencies:
+    "react-native-elevation" "^1.0.0"
 
 "react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.68 || 1000.0.0", "react-native@>=0.40.0", "react-native@>=0.42.0", "react-native@>=0.57", "react-native@0.67.2":
   "integrity" "sha512-grEtpOLLvtSg8Bivg0ffVRCjTkresqMt7Jdog/geF6VAYhb4RnLaaUCWvyrfyB9buf135FKnqg5BIuve/XQNXA=="
@@ -6918,6 +6954,11 @@
   dependencies:
     "readable-stream" "~2.3.6"
     "xtend" "~4.0.1"
+
+"tinycolor2@^1.4.1":
+  "integrity" "sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA=="
+  "resolved" "https://registry.npmjs.org/tinycolor2/-/tinycolor2-1.4.2.tgz"
+  "version" "1.4.2"
 
 "tmpl@1.0.5":
   "integrity" "sha512-3f0uOEAQwIqGuWW2MVzYg8fV/QNnc/IpuJNG837rLuczAaLVHslWHZQj4IGiEl5Hs3kkbhwL9Ab7Hrsmuj+Smw=="

@@ -80,6 +80,12 @@ const HomePage =({route,navigation})=> {
       const getData = async () => {
         try {
           const value = await AsyncStorage.getItem('prueba')
+          if(value==null){
+            ToastAndroid.show('Selecciona una categoria',    ToastAndroid.SHORT,
+            ToastAndroid.BOTTOM,
+            25,
+            50);
+          }
          
           if(value!=null && isLoad==false){
              fetch('http://'+variables.ip+'/botones/categoria/'+value)
@@ -117,7 +123,11 @@ const HomePage =({route,navigation})=> {
       const getData2 = async () => {
         try {
         
-          const value = await AsyncStorage.getItem('tablero')
+          const value = await AsyncStorage.getItem('tablero');
+
+          if(value==null){
+            navigation.navigate('tablerosScreenStack');
+          }
          
           if(value!=null && isLoad2==false){
              fetch('http://'+variables.ip+'/categorias/tablero/'+value)
@@ -403,11 +413,11 @@ const HomePage =({route,navigation})=> {
             {isLoading ? <ActivityIndicator/> : (
               data.map((item,index)=>{
               return  <View style={{ alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, padding:5,margin:5, backgroundColor:item.Color, borderWidth:1,borderRadius:5 ,width:100, height:100}}>
-                         <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {activateSound(item.Nombre)}}>
+                         <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {activateSound(item.Sonido)}}>
                         
                         <Text key={index} style={styles.textboton}>{item.Nombre}</Text>
                         <Image style={styles.icon} source={{
-                          uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Star_icon-72a7cf.svg/2048px-Star_icon-72a7cf.svg.png',
+                          uri: item.Imagen,
                           
                         }}/> 
                         </TouchableOpacity>

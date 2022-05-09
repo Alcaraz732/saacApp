@@ -25,6 +25,7 @@
         "fs": "^0.0.1-security",
         "react": "17.0.2",
         "react-native": "0.67.2",
+        "react-native-color-picker": "^0.6.0",
         "react-native-flat-button": "^1.0.6",
         "react-native-fs": "^2.19.0",
         "react-native-gesture-handler": "~1.10.2",
@@ -35,9 +36,11 @@
         "react-native-restart": "^0.0.24",
         "react-native-safe-area-context": "3.3.2",
         "react-native-screens": "~3.8.0",
+        "react-native-settings-list": "^1.8.0",
         "react-native-sweet-alert": "^3.5.0",
         "react-native-tab-view": "^3.0.0",
-        "react-native-tts": "^4.1.0"
+        "react-native-tts": "^4.1.0",
+        "react-native-wheel-color-picker": "^1.2.0"
     },
     "devDependencies": {
         "@babel/core": "^7.12.9",

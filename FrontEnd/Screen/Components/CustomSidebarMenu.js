@@ -15,6 +15,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+
 const getMyStringValue = async () => {
     try {
       return await AsyncStorage.getItem('user_name')
@@ -48,7 +49,7 @@ const CustomSidebarMenu =  (props) => {
         <DrawerItemList {...props} />
         <DrawerItem
           label={({color}) => 
-            <Text style={{color: '#d8d8d8'}}>
+            <Text style={{color: '#DD370E'}}>
               Salir
             </Text>
           }
@@ -61,7 +62,7 @@ const CustomSidebarMenu =  (props) => {
                 {
                   text: 'Cancelar',
                   onPress: () => {
-                    console.warn(user._W);
+                    console.warn(props);
                     return null;
                     
                   },
@@ -89,7 +90,7 @@ const stylesSidebar = StyleSheet.create({
   sideMenuContainer: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#307ecc',
+    backgroundColor: '#fff',
     paddingTop: 40,
     color: 'white',
   },

@@ -15,6 +15,7 @@ import SettingsScreen from './DrawerScreens/SettingsScreen';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 import TableroPage from './DrawerScreens/TablerosScreen';
+import CreateTablero from './DrawerScreens/CreateTablero';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -31,7 +32,7 @@ const homeScreenStack = ({navigation}) => {
             <NavigationDrawerHeader navigationProps={navigation} />
           ),
           headerStyle: {
-            backgroundColor: '#3181BC', //Set Header color
+            backgroundColor: '#015693', //Set Header color
           },
           headerTintColor: '#fff', //Set Header text color
           headerTitleStyle: {
@@ -55,7 +56,31 @@ const tableroScreenStack = ({navigation}) => {
             <NavigationDrawerHeader navigationProps={navigation} />
           ),
           headerStyle: {
-            backgroundColor: '#3181BC', //Set Header color
+            backgroundColor: '#015693', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const createTableroStack = ({navigation}) => {
+  return (
+    <Stack.Navigator initialRouteName="CreateTableroScreen">
+      <Stack.Screen
+        name="CreateTableroScreen"
+        component={CreateTablero}
+        options={{
+          title: 'Crear Tablero', //Set Header Title
+          headerLeft: () => (
+            <NavigationDrawerHeader navigationProps={navigation} />
+          ),
+          headerStyle: {
+            backgroundColor: '#015693', //Set Header color
           },
           headerTintColor: '#fff', //Set Header text color
           headerTitleStyle: {
@@ -76,7 +101,7 @@ const settingScreenStack = ({navigation}) => {
           <NavigationDrawerHeader navigationProps={navigation} />
         ),
         headerStyle: {
-          backgroundColor: '#307ecc', //Set Header color
+          backgroundColor: '#015693', //Set Header color
         },
         headerTintColor: '#fff', //Set Header text color
         headerTitleStyle: {
@@ -87,7 +112,7 @@ const settingScreenStack = ({navigation}) => {
         name="SettingsScreen"
         component={SettingsScreen}
         options={{
-          title: 'Settings', //Set Header Title
+          title: 'Ajustes', //Set Header Title
         }}
       />
     </Stack.Navigator>
@@ -109,18 +134,23 @@ const DrawerNavigatorRoutes = (props) => {
       drawerContent={CustomSidebarMenu}>
       <Drawer.Screen
         name="homeScreenStack"
-        options={{drawerLabel: 'Home Screen'}}
+        options={{drawerLabel: 'Home'}}
         component={homeScreenStack}
       />
       <Drawer.Screen
         name="tablerosScreenStack"
-        options={{drawerLabel: 'Tableros Screen'}}
+        options={{drawerLabel: 'Tableros'}}
         component={tableroScreenStack}
       />
       <Drawer.Screen
         name="settingScreenStack"
-        options={{drawerLabel: 'Setting Screen'}}
+        options={{drawerLabel: 'Ajustes'}}
         component={settingScreenStack}
+      />
+    <Drawer.Screen
+        name="CreateTableroScreenStack"
+        options={{drawerItemStyle: { height: 0 }}}
+        component={createTableroStack}
       />
     </Drawer.Navigator>
   );

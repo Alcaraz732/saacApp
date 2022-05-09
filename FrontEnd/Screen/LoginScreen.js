@@ -33,11 +33,11 @@ const LoginScreen = ({navigation}) => {
   const handleSubmitPress = () => {
     setErrortext('');
     if (!userEmail) {
-      alert('Please fill Email');
+      alert('Rellena el email por favor');
       return;
     }
     if (!userPassword) {
-      alert('Please fill Password');
+      alert('Rellena la contraseña por favor');
       return;
     }
     setLoading(true);

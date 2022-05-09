@@ -1,5 +1,7 @@
 const sql = require("./db.js");
 var jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const { generarDatos } = require('../helpers/GenerateUser');
 var token;
 
 process.env.SECRET_KEY = "devesh";
@@ -14,6 +16,12 @@ const User = function(user) {
 };
 
 User.create = (newBoton, result) => {
+    const salt = bcrypt.genSaltSync();
+    const cpassword = bcrypt.hashSync(newBoton.password, salt);
+    newBoton.password = cpassword;
+
+
+
     sql.query("INSERT INTO usuario SET ?", newBoton, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -21,6 +29,7 @@ User.create = (newBoton, result) => {
             return;
         }
 
+        generarDatos(newBoton.email, newBoton.nombre);
         console.log("registered user: ", { id: res.insertId, ...newBoton });
         result(null, { id: res.insertId, ...newBoton });
     });
@@ -39,7 +48,7 @@ User.login = (user, result) => {
         }
 
         if (res.length > 0) {
-            if (res[0].password == password) {
+            if (bcrypt.compareSync(password, res[0].password)) {
                 console.log("Llega");
                 var stringified = JSON.stringify(res[0]);
                 var usu = JSON.parse(stringified)

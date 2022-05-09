@@ -23,8 +23,7 @@ import * as variables from "../globalVariable/variables";
 const RegisterScreen = (props) => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [userAge, setUserAge] = useState('');
-  const [userAddress, setUserAddress] = useState('');
+  const [userDisc, setUserDisc] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
@@ -58,14 +57,7 @@ const RegisterScreen = (props) => {
       alert('Please fill Email');
       return;
     }
-    if (!userAge) {
-      alert('Please fill Age');
-      return;
-    }
-    if (!userAddress) {
-      alert('Please fill Address');
-      return;
-    }
+
     if (!userPassword) {
       alert('Please fill Password');
       return;
@@ -75,8 +67,7 @@ const RegisterScreen = (props) => {
     var dataToSend = {
       name: userName,
       email: userEmail,
-      age: userAge,
-      address: userAddress,
+      discapacidad: userDisc,
       password: userPassword,
     };
     var formBody = [];
@@ -89,11 +80,10 @@ const RegisterScreen = (props) => {
 
     fetch('http://'+variables.ip+'/users/register', {
       method: 'POST',
-      body: formBody,
+      body: JSON.stringify({'email':`${userEmail}` ,'password':`${userPassword}`,'discapacidad':`${userDisc}`,'nombre':`${userName}`}) ,
       headers: {
         //Header Defination
-        'Content-Type':
-        'application/x-www-form-urlencoded;charset=UTF-8',
+        'Content-Type': 'application/json', 'Accept': 'application/json'
       },
     })
       .then((response) => response.json())
@@ -102,7 +92,7 @@ const RegisterScreen = (props) => {
         setLoading(false);
         console.log(responseJson);
         // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
+        if (responseJson.email != null) {
           setIsRegistraionSuccess(true);
           console.log(
             'Registration Successful. Please Login to proceed'
@@ -134,13 +124,13 @@ const RegisterScreen = (props) => {
           }}
         />
         <Text style={styles.successTextStyle}>
-          Registration Successful
+          Registro correcto
         </Text>
         <TouchableOpacity
           style={styles.buttonStyle}
           activeOpacity={0.5}
           onPress={() => props.navigation.navigate('LoginScreen')}>
-          <Text style={styles.buttonTextStyle}>Login Now</Text>
+          <Text style={styles.buttonTextStyle}>Iniciar Sesión</Text>
         </TouchableOpacity>
       </View>
     );
@@ -223,7 +213,7 @@ const RegisterScreen = (props) => {
                    cancelText= 'Volver'
                     initValue='Selecciona tu Discapacidad'
                    style={{backgroundColor:'rgba(0,0,0,0.5', display:'flex', position:'absolute', width:'100%',height:'100%'}}
-                    onChange={(option)=>{ variables.asistente = option.valor }} />
+                    onChange={(option)=>{ setUserDisc(option.label) }} />
             
           </View>
 
@@ -237,7 +227,7 @@ const RegisterScreen = (props) => {
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>REGISTER</Text>
+            <Text style={styles.buttonTextStyle}>REGISTRARSE</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </ScrollView>

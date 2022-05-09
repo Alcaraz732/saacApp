@@ -5,7 +5,7 @@ const Tablero = function(tablero) {
     this.ID = tablero.ID;
     this.Nombre = tablero.Nombre;
     this.Color = tablero.Color;
-    this.Usuario = boton.Usuario;
+    this.Usuario = tablero.Usuario;
 
 };
 
@@ -17,8 +17,8 @@ Tablero.create = (newCat, result) => {
             return;
         }
 
-        console.log("created tutorial: ", { id: res.insertId, ...newTutorial });
-        result(null, { id: res.insertId, ...newTutorial });
+        console.log("created tutorial: ", { id: res.insertId, ...newCat });
+        result(null, { id: res.insertId, ...newCat });
     });
 };
 
@@ -61,7 +61,7 @@ Tablero.getAll = (title, result) => {
 };
 
 Tablero.findByUser = (tab, result) => {
-    sql.query(`SELECT * FROM tablero WHERE Usuario = ${tab}`, (err, res) => {
+    sql.query(`SELECT * FROM tablero WHERE Usuario = '${tab}'`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
