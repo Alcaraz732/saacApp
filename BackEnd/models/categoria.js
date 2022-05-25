@@ -4,8 +4,8 @@ const sql = require("./db.js");
 const Categoria = function(categoria) {
     this.ID = categoria.ID;
     this.Nombre = categoria.Nombre;
-    this.Icono = boton.Icono;
-    this.Tablero = boton.Tablero;
+    this.Icono = categoria.Icono;
+    this.Tablero = categoria.Tablero;
 
 };
 
@@ -17,8 +17,8 @@ Categoria.create = (newCat, result) => {
             return;
         }
 
-        console.log("created tutorial: ", { id: res.insertId, ...newTutorial });
-        result(null, { id: res.insertId, ...newTutorial });
+        console.log("created tutorial: ", { id: res.insertId, ...newCat });
+        result(null, { id: res.insertId, ...newCat });
     });
 };
 
@@ -81,7 +81,7 @@ Categoria.findByTablero = (tab, result) => {
 
 Categoria.updateById = (id, tutorial, result) => {
     sql.query(
-        "UPDATE tutorials SET title = ?, description = ?, published = ? WHERE id = ?", [tutorial.title, tutorial.description, tutorial.published, id],
+        "UPDATE categoria SET title = ?, description = ?, published = ? WHERE id = ?", [tutorial.title, tutorial.description, tutorial.published, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -102,7 +102,7 @@ Categoria.updateById = (id, tutorial, result) => {
 };
 
 Categoria.remove = (id, result) => {
-    sql.query("DELETE FROM tutorials WHERE id = ?", id, (err, res) => {
+    sql.query("DELETE FROM categoria WHERE id = ?", id, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -115,13 +115,13 @@ Categoria.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted tutorial with id: ", id);
+        console.log("deleted categiria with id: ", id);
         result(null, res);
     });
 };
 
 Categoria.removeAll = result => {
-    sql.query("DELETE FROM tutorials", (err, res) => {
+    sql.query("DELETE FROM categoria", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

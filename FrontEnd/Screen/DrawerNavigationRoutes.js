@@ -16,6 +16,8 @@ import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 import TableroPage from './DrawerScreens/TablerosScreen';
 import CreateTablero from './DrawerScreens/CreateTablero';
+import CreateCat from './DrawerScreens/CreateCat';
+import CreateBoton from './DrawerScreens/CreateBoton';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -92,6 +94,54 @@ const createTableroStack = ({navigation}) => {
   );
 };
 
+const createcatStack = ({navigation}) => {
+  return (
+    <Stack.Navigator initialRouteName="CreateCatScreen">
+      <Stack.Screen
+        name="CreateCatScreen"
+        component={CreateCat}
+        options={{
+          title: 'Crear categoria', //Set Header Title
+          headerLeft: () => (
+            <NavigationDrawerHeader navigationProps={navigation} />
+          ),
+          headerStyle: {
+            backgroundColor: '#015693', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const createBotonStack = ({navigation}) => {
+  return (
+    <Stack.Navigator initialRouteName="CreateBotonScreen">
+      <Stack.Screen
+        name="CreateBotonScreen"
+        component={CreateBoton}
+        options={{
+          title: 'Crear botón', //Set Header Title
+          headerLeft: () => (
+            <NavigationDrawerHeader navigationProps={navigation} />
+          ),
+          headerStyle: {
+            backgroundColor: '#015693', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const settingScreenStack = ({navigation}) => {
   return (
     <Stack.Navigator
@@ -151,6 +201,16 @@ const DrawerNavigatorRoutes = (props) => {
         name="CreateTableroScreenStack"
         options={{drawerItemStyle: { height: 0 }}}
         component={createTableroStack}
+      />
+    <Drawer.Screen
+        name="CreateCatScreenStack"
+        options={{drawerItemStyle: { height: 0 }}}
+        component={createcatStack}
+      />
+    <Drawer.Screen
+        name="CreateBotonScreenStack"
+        options={{drawerItemStyle: { height: 0 }}}
+        component={createBotonStack}
       />
     </Drawer.Navigator>
   );

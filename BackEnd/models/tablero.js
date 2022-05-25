@@ -79,9 +79,9 @@ Tablero.findByUser = (tab, result) => {
     });
 };
 
-Tablero.updateById = (id, tutorial, result) => {
+Tablero.updateById = (id, tablero, result) => {
     sql.query(
-        "UPDATE tutorials SET title = ?, description = ?, published = ? WHERE id = ?", [tutorial.title, tutorial.description, tutorial.published, id],
+        "UPDATE tableros SET Nombre = ?, Usuario = ?, Color = ? WHERE ID = ?", [tablero.Nombre, tablero.Usuario, tablero.Color, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -102,7 +102,7 @@ Tablero.updateById = (id, tutorial, result) => {
 };
 
 Tablero.remove = (id, result) => {
-    sql.query("DELETE FROM tutorials WHERE id = ?", id, (err, res) => {
+    sql.query("DELETE FROM tablero WHERE id = ?", id, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -115,20 +115,20 @@ Tablero.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted tutorial with id: ", id);
+        console.log("deleted tablero with id: ", id);
         result(null, res);
     });
 };
 
 Tablero.removeAll = result => {
-    sql.query("DELETE FROM tutorials", (err, res) => {
+    sql.query("DELETE FROM tablero", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log(`deleted ${res.affectedRows} tutorials`);
+        console.log(`deleted ${res.affectedRows} tableros`);
         result(null, res);
     });
 };

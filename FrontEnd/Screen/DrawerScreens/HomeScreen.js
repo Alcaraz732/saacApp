@@ -8,7 +8,7 @@
 //import { route } from 'express/lib/application';
 //import { route } from 'express/lib/router';
 import React, { Component,useEffect,useState } from 'react';
-import { Text, View,SectionList,FlatList, TextInput, StyleSheet,Button,ActivityIndicator, Image,TouchableOpacity,ToastAndroid } from 'react-native';
+import { Text, View,SectionList,FlatList, TextInput, StyleSheet,ActivityIndicator, Image,TouchableOpacity,ToastAndroid } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as variables from "../../globalVariable/variables";
@@ -19,7 +19,8 @@ import Tts from 'react-native-tts';
 import Voice from '@react-native-community/voice';
 import SweetAlert from 'react-native-sweet-alert';
 import ModalSelector from 'react-native-modal-selector'
-
+import { Modal,Portal,Provider } from 'react-native-paper';
+import Button from 'react-native-flat-button'
 const MessageTextInput = (props) => {
     return (
       <TextInput
@@ -173,6 +174,97 @@ const HomePage =({route,navigation})=> {
     });
 
   }
+  const DeleteDataCat = async (uid) => {
+    //const username = await AsyncStorage.getItem('user_id');
+    //console.log();
+    fetch('http://'+variables.ip+'/categorias/'+uid, {
+      method: 'DELETE',
+     
+      headers: {
+        //Header Defination
+        'Content-Type': 'application/json', 'Accept': 'application/json'
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        //Hide Loader
+        setLoading(false);
+        console.log(responseJson);
+        // If server response message same as Data Matched
+        
+         
+          console.log(
+            'Cat delete'
+          );
+
+          SweetAlert.showAlertWithOptions({
+            title: 'Categoria borrada:',
+            subTitle:'Categoria eliminada con exito',
+            confirmButtonTitle: 'OK',
+            confirmButtonColor: '#000',
+            otherButtonTitle: 'Cancel',
+            otherButtonColor: '#dedede',
+            
+            cancellable: true
+          },
+          callback => console.log('callback'));
+        setCarga(false);
+        setCarga2(false);
+      })
+      .catch((error) => {
+        //Hide Loader
+        setCarga2(false);
+        setCarga(false);
+        
+        console.error(error);
+      });
+  };
+
+  const DeleteDataBoton = async (uid) => {
+    //const username = await AsyncStorage.getItem('user_id');
+    //console.log();
+    fetch('http://'+variables.ip+'/botones/'+uid, {
+      method: 'DELETE',
+     
+      headers: {
+        //Header Defination
+        'Content-Type': 'application/json', 'Accept': 'application/json'
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        //Hide Loader
+        //setLoading(false);
+        console.log(responseJson);
+        // If server response message same as Data Matched
+        
+         
+          console.log(
+            'bot delete'
+          );
+
+          SweetAlert.showAlertWithOptions({
+            title: 'Boton borrado:',
+            subTitle:'Boton eliminado con exito',
+            confirmButtonTitle: 'OK',
+            confirmButtonColor: '#000',
+            otherButtonTitle: 'Cancel',
+            otherButtonColor: '#dedede',
+            
+            cancellable: true
+          },
+          callback => console.log('callback'));
+        setCarga(false);
+        setCarga2(false);
+      })
+      .catch((error) => {
+        //Hide Loader
+        setCarga2(false);
+        setCarga(false);
+        
+        console.error(error);
+      });
+  };
   
     getData2();
     getData();
@@ -246,14 +338,134 @@ const HomePage =({route,navigation})=> {
       console.log("error raised", error)
     }
   }
-
-        
+  const [modalVisible, setModalVisible] = useState(false);
+  const hideModal = () => setModalVisible(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
+  const hideModal2 = () => setModalVisible2(false);
+  const [modalVisible3, setModalVisible3] = useState(false);
+  const hideModal3 = () => setModalVisible3(false);
+  
+  const [idDel, setIDDel] = React.useState('');
+  const containerStyle = {backgroundColor: 'white', padding: 20, height:'30%',borderRadius:20};
     
     
 
         const [value, setText] = React.useState('');
       return (  
-            
+          <Provider>
+
+<Portal>
+          <Modal
+       contentContainerStyle={containerStyle}
+        visible={modalVisible}
+        onDismiss={hideModal}
+        style={{padding:20,margin:20}}
+      >
+        
+       <View style={{margin:20,padding:10, justifyContent:'space-between'}}>
+          <Button 
+          type="custom"
+          backgroundColor={"#0A405B"}
+          borderColor={"#ffffff"}
+          borderRadius={10}
+          shadowHeight={5} 
+          title={'Crear Categoria'}
+          onPress={() => 
+            navigation.navigate('CreateCatScreenStack')}
+          >Crear Categoria</Button>
+          <Button
+           type="custom"
+           backgroundColor={"#000000"}
+           borderColor={"#ffffff"}
+           borderRadius={10}
+           shadowHeight={5} 
+           onPress={()=>navigation.navigate('CreateBotonScreenStack')}
+           title={'Crear Botón'}>Crear Botón</Button>
+        </View>
+      </Modal>
+      </Portal>
+      <Portal>
+      <Modal
+       contentContainerStyle={containerStyle}
+        visible={modalVisible2}
+        onDismiss={hideModal2}
+        style={{padding:20,margin:20, }}
+      >
+        
+          <Text style={{color:'black'}}>
+            ¿Deseas eliminar la categoria?
+          </Text>
+          <Button 
+          type="custom"
+          backgroundColor={"#D91212"}
+          borderColor={"#ffffff"}
+          borderRadius={10}
+          shadowHeight={5} 
+          title={'Si'}
+          onPress={() => DeleteDataCat(idDel)
+       }
+          >Si</Button>
+          <Button
+           type="custom"
+           backgroundColor={"#000000"}
+           borderColor={"#ffffff"}
+           borderRadius={10}
+           shadowHeight={5} 
+           onPress={hideModal2}
+           title={'No'}>No</Button>
+        
+      </Modal>
+      </Portal>
+      <Portal>
+      <Modal
+       contentContainerStyle={containerStyle}
+        visible={modalVisible3}
+        onDismiss={hideModal3}
+        style={{padding:20,margin:20, }}
+      >
+        
+          <Text style={{color:'black'}}>
+            ¿Deseas eliminar el botón?
+          </Text>
+          <Button 
+          type="custom"
+          backgroundColor={"#D91212"}
+          borderColor={"#ffffff"}
+          borderRadius={10}
+          shadowHeight={5} 
+          title={'Si'}
+          onPress={() => DeleteDataBoton(idDel)
+       }
+          >Si</Button>
+          <Button
+           type="custom"
+           backgroundColor={"#000000"}
+           borderColor={"#ffffff"}
+           borderRadius={10}
+           shadowHeight={5} 
+           onPress={hideModal3}
+           title={'No'}>No</Button>
+          <View
+            style={{
+              borderBottomColor: 'black',
+              borderBottomWidth: 0.5,
+              
+              }}
+            />
+            <Text style={{color:'black'}}>
+            Guardar botón
+          </Text>
+            <Button
+           type="custom"
+           backgroundColor={"#03DBDB"}
+           borderColor={"#ffffff"}
+           borderRadius={10}
+           shadowHeight={5} 
+           onPress={()=>console.log('A fav')}
+           title={'Añadir favorito'}>Añadir a favoritos</Button>
+        
+      </Modal>
+      </Portal>
            <SafeAreaView   style={{flex:1}}>
             {/*BARRA DE BUSQUEDA*/ }
             <View>
@@ -273,7 +485,12 @@ const HomePage =({route,navigation})=> {
               data2.map((item,index)=>{
               if(index%2==0){
                 return  <View style={{  flex: 2,margin:5,alignItems: 'center',justifyContent: 'space-between', backgroundColor:'#F9C106', borderWidth:1,borderRadius:5 ,width:80, height:80}}>
-                <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {storeData(item.ID+'')}}>
+                <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {storeData(item.ID+'')}}  onLongPress={()=>{
+                console.log('long press');
+                //showModal();
+                setIDDel(item.ID)
+                setModalVisible2(true);
+              }}>
                 <Image style={styles.images} source={{
                    uri: item.Icono,
                  }}/> 
@@ -294,13 +511,18 @@ const HomePage =({route,navigation})=> {
   
    
           </View>
-          <View style={{ top: -125    , padding:5,paddingLeft:30,paddingBottom:20, ajustifyContent:'space-around'}}  >
+          <View style={{ top: "-30%"    , padding:5,paddingLeft:30,paddingBottom:20, ajustifyContent:'space-around'}}  >
               
 {isLoading2 ? <ActivityIndicator/> : (
     data2.map((item,index)=>{
     if(index%2==1){
       return  <View style={{  flex: 2,alignItems: 'center',left:100,top:-80,justifyContent: 'space-between', margin:5  ,backgroundColor:'#F9C106', borderWidth:1,borderRadius:5 ,width:80, height:80}}>
-      <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {storeData(item.ID+'')}}>
+      <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {storeData(item.ID+'')}}  onLongPress={()=>{
+                console.log('long press');
+                //showModal();
+                setIDDel(item.ID)
+                setModalVisible2(true);
+              }}>
       <Image style={styles.images} source={{
          uri: item.Icono,
        }}/> 
@@ -344,7 +566,7 @@ const HomePage =({route,navigation})=> {
               </TouchableOpacity>
               </View >
               <View style={{ top:6,flex: 2,alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, backgroundColor:'#D3CFC1', borderWidth:1,borderRadius:5, width:55,height:55}}>
-              <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {console.log('does not work');}}>      
+              <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {setModalVisible(true);}}>      
                 <Image style={styles.icon} source={{
                    uri: 'http://cdn.onlinewebfonts.com/svg/img_203138.png',
                   }}/> 
@@ -413,7 +635,12 @@ const HomePage =({route,navigation})=> {
             {isLoading ? <ActivityIndicator/> : (
               data.map((item,index)=>{
               return  <View style={{ alignItems: 'center',justifyContent: 'flex-start',paddingTop:10, padding:5,margin:5, backgroundColor:item.Color, borderWidth:1,borderRadius:5 ,width:100, height:100}}>
-                         <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {activateSound(item.Sonido)}}>
+                         <TouchableOpacity style={{paddingLeft:3.5}} onPress={()=> {activateSound(item.Sonido)}}  onLongPress={()=>{
+                console.log('long press');
+                //showModal();
+                setIDDel(item.ID)
+                setModalVisible3(true);
+              }}>
                         
                         <Text key={index} style={styles.textboton}>{item.Nombre}</Text>
                         <Image style={styles.icon} source={{
@@ -435,7 +662,7 @@ const HomePage =({route,navigation})=> {
           
                 
         </SafeAreaView>
-
+        </Provider> 
         );
     }
 }

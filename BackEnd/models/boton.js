@@ -105,7 +105,7 @@ Boton.updateById = (id, tutorial, result) => {
 };
 
 Boton.remove = (id, result) => {
-    sql.query("DELETE FROM tutorials WHERE id = ?", id, (err, res) => {
+    sql.query("DELETE FROM boton WHERE id = ?", id, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -118,20 +118,20 @@ Boton.remove = (id, result) => {
             return;
         }
 
-        console.log("deleted tutorial with id: ", id);
+        console.log("deleted boton with id: ", id);
         result(null, res);
     });
 };
 
 Boton.removeAll = result => {
-    sql.query("DELETE FROM tutorials", (err, res) => {
+    sql.query("DELETE FROM boton", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
 
-        console.log(`deleted ${res.affectedRows} tutorials`);
+        console.log(`deleted ${res.affectedRows} botones`);
         result(null, res);
     });
 };

@@ -27,7 +27,7 @@ import SweetAlert from 'react-native-sweet-alert';
 
 
 
-const CreateTablero  =  ({route,navigation})=> {
+const CreateBoton  =  ({route,navigation})=> {
 
      {
       const [isLoading, setLoading] = useState(true);
@@ -37,11 +37,11 @@ const CreateTablero  =  ({route,navigation})=> {
 
       const handleSubmitButton = async() => {
        
-        const username = await AsyncStorage.getItem('user_id');
+        const categoria = await AsyncStorage.getItem('prueba');
         //console.log();
-        fetch('http://'+variables.ip+'/tableros', {
+        fetch('http://'+variables.ip+'/botones', {
           method: 'POST',
-          body: JSON.stringify({'Nombre':`${value}` ,'Usuario':`${username}`,'Color':`${fromHsv(color)}`,}) ,
+          body: JSON.stringify({'Nombre':`${value}` ,'categoria':`${categoria}`,'Imagen':`${icon}`,'Color':`${fromHsv(color)}`,'Sonido':`${sonido}`,'Favorito':`0`,}) ,
           headers: {
             //Header Defination
             'Content-Type': 'application/json', 'Accept': 'application/json'
@@ -56,12 +56,12 @@ const CreateTablero  =  ({route,navigation})=> {
             if (responseJson.Nombre != null) {
              
               console.log(
-                'Tablero created'
+                'Cat created'
               );
 
               SweetAlert.showAlertWithOptions({
-                title: 'El Tablero ha sido creado:',
-                subTitle:'Tablero creado con exito',
+                title: 'La Categoria ha sido creada:',
+                subTitle:'Categoria creada con exito',
                 confirmButtonTitle: 'OK',
                 confirmButtonColor: '#000',
                 otherButtonTitle: 'Cancel',
@@ -85,6 +85,8 @@ const CreateTablero  =  ({route,navigation})=> {
 
         const [value, setText] = React.useState('');
         const [color, setColor] = React.useState('');
+        const [icon, setIcono] = React.useState('');
+        const [sonido, SetSound] = React.useState('');
       return (  
             
         <View style={{flex: 1}}>
@@ -111,7 +113,32 @@ const CreateTablero  =  ({route,navigation})=> {
               blurOnSubmit={false}
             />
           </View>
-    <View style={{flex: 1, padding: 45, }}>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(Icon) => setIcono(Icon)}
+              underlineColorAndroid="#f000"
+              placeholder="URL del icono"
+              placeholderTextColor="#8b9cb5"
+              autoCapitalize="sentences"
+              returnKeyType="next"
+              blurOnSubmit={false}
+            />
+          </View>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(Sonido) => SetSound(Sonido)}
+              underlineColorAndroid="#f000"
+              placeholder="Sonido que emitira el botón"
+              placeholderTextColor="#8b9cb5"
+              autoCapitalize="sentences"
+              returnKeyType="next"
+              blurOnSubmit={false}
+            />
+          </View>
+          
+          <View style={{flex: 1, padding: 45, }}>
       <Text style={{color:'black'}}>Color:</Text>
           <TriangleColorPicker
               onColorSelected={color => alert(`Color seleccionado: ${color}`)}
@@ -121,12 +148,13 @@ const CreateTablero  =  ({route,navigation})=> {
 
 				
 			</View>
+
          
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>Crear Tablero</Text>
+            <Text style={styles.buttonTextStyle}>Crear Botón</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </ScrollView>
@@ -187,4 +215,4 @@ const styles = StyleSheet.create({
    
   
   
-  export default CreateTablero
+  export default CreateBoton
